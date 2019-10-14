@@ -1,0 +1,38 @@
+{
+  "name": "placepass-coding-challenge",
+  "version": "0.1.0",
+  "description": "cli app for placepass coding challenge",
+  "main": "./lib/app.js",
+  "bin": {
+    "placepass-cli": "./lib/app.js"
+  },
+  "author": "Josh Rosenberg <joshua@rosenbergs.org>",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "node-fetch": "latest",
+    "request": "latest",
+    "clear": "latest",
+    "chalk": "latest",
+    "figlet": "latest",
+    "commander": "latest",
+    "path": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@types/clear": "latest",
+    "@types/figlet": "latest",
+    "@types/node-fetch": "latest",
+    "nodemon": "latest",
+    "ts-node": "latest",
+    "typescript": "latest"
+  },
+  "scripts": {
+    "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/app.ts",
+    "placepass-cli": "ts-node src/app.ts",
+    "create": "yarn run build && yarn run test",
+    "build": "tsc -p .",
+    "test": "sudo yarn i -g && placepass-cli",
+    "refresh": "rm -rf ./node_modules ./package-lock.json && yarn install"
+  }
+}
