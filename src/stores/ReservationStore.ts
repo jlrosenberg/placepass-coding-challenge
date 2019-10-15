@@ -23,7 +23,6 @@ export class ReservationStore{
     return this.reservationsByUserId
   }
 
-
   async loadReservationsForEnvironment(environment: string){
     const result = await PlacePassApi.getAppsAndReservationsForEnvironment(environment);
     const reservations: Array<any> = result.reservations;
@@ -37,5 +36,4 @@ export class ReservationStore{
       (this.reservationsByUserId.get(r.user.id) as Array<Reservation>).push(r)
     })
   }
-
 }
