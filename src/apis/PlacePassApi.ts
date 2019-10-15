@@ -1,7 +1,8 @@
 import fetch from 'node-fetch';
+import chalk from 'chalk';
 
-const AUTH_TOKEN = 'zKPc1VOkLzE_lPfszkKi0DY8g0xX56dRP4oyDRSX923J3QD5J-16MnxOi6KCques-QTIDH2sYDsLzlwKgtaHCywAAAA'
-
+// const AUTH_TOKEN = 'zKPc1VOkLzE_lPfszkKi0DY8g0xX56dRP4oyDRSX923J3QD5J-16MnxOi6KCques-QTIDH2sYDsLzlwKgtaHCywAAAA'
+const AUTH_TOKEN = 'tt9LvwYCtArvQVCmyeydTdIwfgx-DF-rwpuVY1Keh-0SfnBU4p1n5lxPVtYmp_6XyvSU_BBl7gYhN3vrLm9tAhYAAAA'
 export class PlacePassApi{
   static async getEnvironments(){
     const options = {
@@ -14,6 +15,11 @@ export class PlacePassApi{
     const response = await fetch("http://interview.placepass.com/api/dibs/", options)
     const responseJson = await response.json();
 
+    if(!responseJson.ok){
+      console.error(chalk.red(responseJson.error)) 
+      process.exit(0)
+    }
+
     return await responseJson.envs
   }
 
@@ -25,8 +31,14 @@ export class PlacePassApi{
       method: "GET"
     }
 
-    const response = await fetch(`http://interview.placepass.com/api/dibs/${environment}`, options);
+    // console.log(`http://interview.placepass.com/api/dibs/${environment}/`)
+    const response = await fetch(`http://interview.placepass.com/api/dibs/${environment}/`, options);
     const responseJson = await response.json();
+    if(!responseJson.ok){
+      console.error(chalk.red(responseJson.error)) 
+      process.exit(0)
+    }
+
 
     return await responseJson;
   }
@@ -38,11 +50,17 @@ export class PlacePassApi{
       },
       method: "POST"
     }
-
     const postUrl = `http://interview.placepass.com/api/dibs/${environment}/?app=${apps.join("&app=")}${description ? "&description="+description : ''}`
 
-    const response = await fetch(postUrl, options);
-    return await response.json()
+    const response = await fetch(postUrl, options)
+    const responseJson = await response.json();
+    if(!responseJson.ok){
+      console.error(chalk.red(responseJson.error)) 
+      process.exit(0)
+    }
+
+    console.log(chalk.green("Status of your new reservation is: " + responseJson.reservation.status))
+    return await responseJson
   }
 
   static async getReservation(environment: string, id: string){
@@ -53,8 +71,13 @@ export class PlacePassApi{
       method: "GET"
     }
 
-    const response = await fetch(`http://interview.placepass.com/api/dibs/${environment}/${id}`)
+    const response = await fetch(`http://interview.placepass.com/api/dibs/${environment}/${id}/`, options)
     const responseJson = await response.json();
+
+    if(!responseJson.ok){
+      console.error(chalk.red(responseJson.error)) 
+      process.exit(0)
+    }
 
     return await responseJson.reservation
   }
@@ -67,14 +90,17 @@ export class PlacePassApi{
       method: "DELETE"
     }
 
-    const response = await fetch(`http://interview.placepass.com/api/dibs/${environment}/${id}`)
-    const responseJson = await response.json();
-
-    return await responseJson.reservation
-
+    const response = await fetch(`http://interview.placepass.com/api/dibs/${environment}/${id}`, options)
+ 
+    const result = await response.json();
+    if(!result.ok){
+      console.error(chalk.red(result.error))
+    }else{
+      console.log(chalk.green("Success!"))
+    }
   }
 
-  static async deleteMostRecentReservation(environment: string){
+  static async deleteOldestReservation(environment: string){
     const options = {
       headers: {
         Authorization: `Bearer ${AUTH_TOKEN}`
@@ -82,10 +108,15 @@ export class PlacePassApi{
       method: "DELETE"
     }
 
-    const response = await fetch(`http://interview.placepass.com/api/dibs/${environment}/`)
-    const responseJson = await response.json();
+    const response = await fetch(`http://interview.placepass.com/api/dibs/${environment}/`, options)
+    const result = await response.json();
+    if(!result.ok){
+      console.error(chalk.red(result.error))
+    }else{
+      console.log(chalk.green("Success!"))
+    }
 
-    return await responseJson.reservation
+    return await result
 
   }
 }
