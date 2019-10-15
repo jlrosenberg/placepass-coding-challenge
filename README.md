@@ -1,4 +1,4 @@
-This app was built with TypeScript, runs via node.js, and makes request using the Fetch API. I also created a simple bash script to pass along arguments into a yarn script to make executing the app easier. 
+This app was built with TypeScript, runs via node.js, and makes requests using the Fetch API. I also created a simple bash script to pass along arguments into a yarn script to make executing the app easier. 
 
 To install all dependencies, execute
 ```yarn```

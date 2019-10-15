@@ -1,31 +1,16 @@
 #!/usr/bin/env node
-
 import chalk from 'chalk';
-import clear from 'clear';
 import figlet from 'figlet';
-import path from 'path';
 import { PlacePassApi } from './apis/PlacePassApi';
 import { ReservationStore } from './stores/ReservationStore';
-import { User } from './models/User';
 
 main();
 
-// placepass-cli display users {env}
-// placepass-cli display environments 
-// placepass-cli reserve {env}
-// placepass-cli reserve {env} {microservice} {microservice} ...
-// placepass-cli release {env}
-// placepass-cli release {env} {reservation_id}
-// placepass-cli help
-// placepass-cli version
-
 async function main(){
-  // console.log(process.argv)
   // the first relevant argument is the third argument, first two are ts-node and path to this file
   if(process.argv.length == 2){
     console.error(chalk.red("No command provided. For more specific instructions on how to use this app, please try \"./placeplass-cli help\""))
   }
-  // console.log(process.argv)
 
   if(process.argv[2] == "help"){
     help();
@@ -73,7 +58,6 @@ function release(){
       PlacePassApi.deleteReservationById(process.argv[3], process.argv[4])
     }
   }
-
 }
 
 function reserve(){
@@ -110,7 +94,6 @@ async function displayEnvironments(){
   environments.forEach(env => {
     console.log(`  - ${env}`)
   });
-
 }
 
 async function displayUsersForEnvironment(){
