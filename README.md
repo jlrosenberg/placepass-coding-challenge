@@ -16,6 +16,7 @@ Alternatively, you can use the placepass-cli bash script to execute the app (rec
 
 Valid ways to run the app:
 
+```bash
 ./placepass-cli display users {env}
 ./placepass-cli display environments 
 ./placepass-cli reserve {env} {microservice} {microservice} ...
@@ -23,3 +24,4 @@ Valid ways to run the app:
 ./placepass-cli release {env} {reservation_id}
 ./placepass-cli help
 ./placepass-cli version
+```
